@@ -1,0 +1,14 @@
+.env
+.git
+logs
+config
+dags
+tests
+__pycache__
+*.pyc
+.pytest_cache
+.coverage
+coverage.xml
+.venv
+.scannerwork
+*.zip
