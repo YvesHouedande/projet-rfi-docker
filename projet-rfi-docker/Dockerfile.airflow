@@ -1,7 +1,0 @@
-# Image Airflow + provider Docker (pour le DockerOperator).
-# La version d'Airflow est figée dans le pip install pour qu'elle ne soit pas mise à jour.
-ARG AIRFLOW_VERSION=3.3.2
-FROM apache/airflow:${AIRFLOW_VERSION}
-
-ARG AIRFLOW_VERSION
-RUN pip install --no-cache-dir "apache-airflow==${AIRFLOW_VERSION}" apache-airflow-providers-docker
