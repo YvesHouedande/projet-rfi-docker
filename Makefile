@@ -50,6 +50,14 @@ psql: ## Ouvre psql sur la base RFI
 install: ## Installe les dépendances de développement
 	pip install -r requirements-dev.txt
 
+lint: ## Vérifie le style et la qualité (ruff, sans modifier)
+	ruff check src tests dags
+	ruff format --check src tests dags
+
+lint-fix: ## Corrige automatiquement le style (modifie les fichiers)
+	ruff check --fix src tests dags
+	ruff format src tests dags
+
 test: ## Lance pytest avec couverture (coverage.xml pour Sonar)
 	pytest --cov --cov-report=xml --cov-report=term
 
