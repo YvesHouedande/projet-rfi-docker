@@ -76,12 +76,16 @@ def load_files(conn, fichiers: list[str]) -> int:
         lignes.extend(read_rows(fichier))
 
     # « with conn » : commit si tout se passe bien, rollback en cas d'exception.
-    with conn:
-        with conn.cursor() as curseur:
-            curseur.execute(CREATE_TABLE)
-            if lignes:
-                execute_values(curseur, INSERT, lignes)
-    return len(lignes)
+    # with conn:
+    #     with conn.cursor() as curseur:
+    #         curseur.execute(CREATE_TABLE)
+    #         if lignes:
+    #             execute_values(curseur, INSERT, lignes)
+    # return len(lignes)
+    with conn, conn.cursor() as curseur:
+        curseur.execute(CREATE_TABLE)
+        if lignes:
+            execute_values(curseur, INSERT, lignes)
 
 
 def main(argv: list[str] | None = None) -> int:
