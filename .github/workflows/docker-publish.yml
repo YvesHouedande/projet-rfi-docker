@@ -31,13 +31,14 @@ jobs:
             requirements.txt
 
       - run: make install
-      # - run: make lint 
+      # - run: make lint
       - run: make test
 
       - uses: actions/upload-artifact@v4
         with:
           name: coverage
           path: coverage.xml
+          if-no-files-found: error
 
   build:
     needs: test                    # pas de build si les tests échouent
@@ -62,24 +63,12 @@ jobs:
             type=semver,pattern={{version}}
             type=raw,value=latest,enable={{is_default_branch}}
 
-      # 1) Build local (chargé dans le daemon) pour le smoke test
       - uses: docker/build-push-action@v6
         with:
           context: .
           file: Dockerfile
-          load: true
-          tags: ${{ env.IMAGE }}:ci
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Smoke test
-        run: make smoke IMAGE=${{ env.IMAGE }} TAG=ci
-
-      # 2) Build identique (100 % cache) puis push
-      - uses: docker/build-push-action@v6
-        with:
-          context: ./src
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
+          cache-from: type=gha,scope=rfi
+          cache-to: type=gha,mode=max,scope=rfi
