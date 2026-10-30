@@ -86,6 +86,7 @@ def load_files(conn, fichiers: list[str]) -> int:
         curseur.execute(CREATE_TABLE)
         if lignes:
             execute_values(curseur, INSERT, lignes)
+            
 
 
 def main(argv: list[str] | None = None) -> int:
