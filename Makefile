@@ -30,8 +30,13 @@ init: ## Prépare .env (uid, groupe docker, secrets) et le dossier logs/
 	@mkdir -p logs
 	@echo ".env prêt. Lancez : make up"
 
-build: ## Construit l'image rfi-ingest et les images compose
-	docker build -t rfi-ingest:latest .
+# build: ## Construit l'image rfi-ingest et les images compose
+# 	docker build -t rfi-ingest:latest .
+# 	docker compose build
+
+build: ## Construit l'image rfi-ingest (tag lu dans .env) et les images compose
+	@set -a; [ -f .env ] && . ./.env; set +a; \
+	docker build -t "$${RFI_INGEST_IMAGE:-rfi-ingest:latest}" .
 	docker compose build
 
 up: ## Démarre Airflow et PostgreSQL
