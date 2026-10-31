@@ -43,6 +43,8 @@ POSTGRES_ENV = {
 }
 
 
+
+
 def docker_defaults() -> dict:
     """Arguments communs à tous les DockerOperator d'ingestion.
 
